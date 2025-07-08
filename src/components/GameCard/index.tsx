@@ -11,5 +11,15 @@ export const GameCard = ({
   homeScore,
   awayScore,
 }: Props) => {
-  return <div></div>;
+  return (
+    <div className="flex justify-between bg-gradient-to-r from-red-500 via-pink-500 to-pink-700 text-white font-bold text-3xl py-4 px-10 rounded-lg shadow-lg">
+      <p>{homeName}</p>
+      <div>
+        <p>
+          {homeScore} : {awayScore}
+        </p>
+      </div>
+      <p>{awayName}</p>
+    </div>
+  );
 };
