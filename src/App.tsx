@@ -1,7 +1,8 @@
-import "./App.css";
+import "./index.css";
+import { ScoreBoard } from "@/pages/ScoreBoard";
 
 function App() {
-  return <></>;
+  return <ScoreBoard />;
 }
 
 export default App;
