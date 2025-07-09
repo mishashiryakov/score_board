@@ -2,7 +2,11 @@ import { useState } from "react";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 
-export const AddGame = () => {
+type Props = {
+  onAdd: () => {};
+};
+
+export const AddGame = ({ onAdd }: Props) => {
   const [homeName, setHomeName] = useState<string>("");
   const [awayName, setAwayName] = useState<string>("");
 
