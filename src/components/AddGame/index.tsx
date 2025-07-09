@@ -3,12 +3,18 @@ import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 
 type Props = {
-  onAdd: () => {};
+  onAdd: (homeName: string, awayName: string) => void;
 };
 
 export const AddGame = ({ onAdd }: Props) => {
   const [homeName, setHomeName] = useState<string>("");
   const [awayName, setAwayName] = useState<string>("");
+
+  const addGame = () => {
+    onAdd(homeName, awayName);
+    setHomeName("");
+    setAwayName("");
+  };
 
   return (
     <div className="flex flex-col gap-4 ">
@@ -27,7 +33,9 @@ export const AddGame = ({ onAdd }: Props) => {
           className="flex-1"
         />
       </div>
-      <Button onClick={() => {}}>Add Game</Button>
+      <Button onClick={addGame} disabled={!homeName || !awayName}>
+        Add Game
+      </Button>
     </div>
   );
 };

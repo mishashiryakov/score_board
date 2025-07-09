@@ -8,7 +8,7 @@ export const LiveGames = () => {
         No Live games at the moment
       </h2>
       <Divider />
-      <AddGame />
+      <AddGame onAdd={() => {}} />
       {/* data work flow */}
       {/* games list + Edit + Finish */}
       {/* Add game */}
