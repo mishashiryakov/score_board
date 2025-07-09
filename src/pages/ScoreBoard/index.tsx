@@ -3,6 +3,7 @@ import { Tab } from "@/components/Tab";
 import { TabList } from "@/components/TabList";
 import { LiveGames } from "@/components/LiveGames";
 import { GamesSummary } from "@/components/GamesSummary";
+import { Divider } from "@/components/Divider";
 
 enum Views {
   Live = "Live",
@@ -31,7 +32,7 @@ export const ScoreBoard = () => {
         ))}
       </TabList>
 
-      <div className="h-[1px] w-full bg-gray-200" />
+      <Divider />
 
       {activeView === Views.Live && <LiveGames />}
       {activeView === Views.Summary && <GamesSummary />}

@@ -13,8 +13,8 @@ describe("GameCard", () => {
       />
     );
 
-    expect(screen.getByText("Team A")).toBeInTheDocument();
-    expect(screen.getByText("Team B")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Team A" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Team B" })).toBeInTheDocument();
     expect(screen.getByText("1 : 0")).toBeInTheDocument();
   });
 });
