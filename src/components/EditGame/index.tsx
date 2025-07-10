@@ -24,15 +24,15 @@ export const EditGame = ({
       <div className="flex gap-4">
         <Input
           label="Home team"
-          value={homeScore}
-          setValue={setHomeScore}
+          value={homeScore.toString()}
+          setValue={(val) => setHomeScore(Number(val))}
           className="flex-1"
           type="number"
         />
         <Input
           label="Away team"
-          value={awayScore}
-          setValue={setAwayScore}
+          value={awayScore.toString()}
+          setValue={(val) => setAwayScore(Number(val))}
           className="flex-1"
           type="number"
         />
