@@ -4,3 +4,5 @@ export type Game = {
   homeScore: number;
   awayScore: number;
 };
+
+export type GamesMap = Record<string, Game>;

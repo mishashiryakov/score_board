@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { type Game } from "@/types/game";
+import type { Game, GamesMap } from "@/types/game";
 
 export const useGames = () => {
-  const [liveGames, setLiveGames] = useState<Record<string, Game>>({});
-  const [finishedGames, setFinishedGames] = useState<Record<string, Game>>({});
+  const [liveGames, setLiveGames] = useState<GamesMap>({});
+  const [finishedGames, setFinishedGames] = useState<GamesMap>({});
 
   const startGame = (homeName: string, awayName: string) => {
     const id = Date.now();

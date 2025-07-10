@@ -1,19 +1,21 @@
 import { AddGame } from "@/components/AddGame";
 import { Divider } from "@/components/Divider";
 import { GameCard } from "@/components/GameCard";
-import { type Game } from "@/types/game";
+import { type GamesMap } from "@/types/game";
 
 type Props = {
-  gamesList: Game[];
+  gamesList: GamesMap;
+  startGame: (homeName: string, awayName: string) => void;
 };
 
-export const LiveGames = ({ gamesList }: Props) => {
+export const LiveGames = ({ gamesList, startGame }: Props) => {
+  const gamesArray = Object.entries(gamesList);
   return (
     <div className="flex flex-col gap-5">
-      {gamesList.length ? (
-        gamesList.map((game, index) => (
+      {gamesArray.length ? (
+        gamesArray.map(([id, game]) => (
           <GameCard
-            key={index}
+            key={id}
             homeName={game.homeName}
             awayName={game.awayName}
             homeScore={game.homeScore}
@@ -26,10 +28,8 @@ export const LiveGames = ({ gamesList }: Props) => {
         </h2>
       )}
       <Divider />
-      <AddGame onAdd={() => {}} />
-      {/* data work flow */}
-      {/* games list + Edit + Finish */}
-      {/* Add game */}
+      <AddGame onAdd={startGame} />
+      {/* Edit + Finish */}
     </div>
   );
 };

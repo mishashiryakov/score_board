@@ -4,6 +4,7 @@ import { TabList } from "@/components/TabList";
 import { LiveGames } from "@/components/LiveGames";
 import { GamesSummary } from "@/components/GamesSummary";
 import { Divider } from "@/components/Divider";
+import { useGames } from "@/hooks/useGames";
 
 enum Views {
   Live = "Live",
@@ -17,6 +18,9 @@ const tabs = [
 
 export const ScoreBoard = () => {
   const [activeView, setActiveView] = useState<Views>(Views.Live);
+
+  const { liveGames, finishedGames, startGame, finishGame, updateScore } =
+    useGames();
 
   return (
     <div className="flex flex-col gap-5 bg-white/30 border border-white/30 rounded-xl shadow-lg p-10 w-full">
@@ -34,7 +38,9 @@ export const ScoreBoard = () => {
 
       <Divider />
 
-      {activeView === Views.Live && <LiveGames gamesList={[]} />}
+      {activeView === Views.Live && (
+        <LiveGames gamesList={liveGames} startGame={startGame} />
+      )}
       {activeView === Views.Summary && <GamesSummary />}
     </div>
   );
