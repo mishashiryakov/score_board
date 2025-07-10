@@ -58,4 +58,21 @@ describe("GameCard", () => {
     await user.click(editButton);
     expect(onEdit).toHaveBeenCalledTimes(1);
   });
+
+  it("does not render buttons when in viewMode", () => {
+    render(
+      <GameCard
+        homeName="Team A"
+        awayName="Team B"
+        homeScore={2}
+        awayScore={2}
+        viewMode={true}
+      />
+    );
+
+    expect(screen.queryByRole("button", { name: "✕" })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Edit" })
+    ).not.toBeInTheDocument();
+  });
 });
