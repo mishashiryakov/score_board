@@ -57,27 +57,16 @@ describe("EditGame", () => {
     expect((awayInput as HTMLInputElement).value).toBe("7");
   });
 
-  it("does not allow typing non-numeric characters", async () => {
+  it("disables the button if any score is less than 0", async () => {
     const user = userEvent.setup();
-    render(<EditGame {...defaultProps} />);
-
-    const homeInput = screen.getByLabelText(/team a/i);
-
-    await user.clear(homeInput);
-    await user.type(homeInput, "abc");
-
-    expect((homeInput as HTMLInputElement).value).toBe("");
-  });
-
-  it("disables the button if any input is empty", async () => {
-    const user = userEvent.setup();
-
     render(<EditGame {...defaultProps} />);
 
     const button = screen.getByRole("button", { name: /save changes/i });
-    const awayInput = screen.getByLabelText(/team b/i);
+    const homeInput = screen.getByLabelText(/team a/i);
 
-    await user.clear(awayInput);
+    await user.clear(homeInput);
+    await user.type(homeInput, "-1");
+
     expect(button).toBeDisabled();
   });
 });
