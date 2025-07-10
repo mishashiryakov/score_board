@@ -8,11 +8,19 @@ import { useState } from "react";
 type Props = {
   gamesList: GamesMap;
   startGame: (homeName: string, awayName: string) => void;
+  finishGame: (id: string) => void;
+  updateScore: (id: string, homeScore: number, awayScore: number) => void;
 };
 
-export const LiveGames = ({ gamesList, startGame }: Props) => {
-  const [isEditModalOpen, setIsModalOpen] = useState<boolean>(false);
+export const LiveGames = ({
+  gamesList,
+  startGame,
+  finishGame,
+  updateScore,
+}: Props) => {
+  const [editGameId, setEditGameId] = useState<string>("");
   const gamesArray = Object.entries(gamesList);
+
   return (
     <div className="flex flex-col gap-5">
       {gamesArray.length ? (
@@ -23,6 +31,8 @@ export const LiveGames = ({ gamesList, startGame }: Props) => {
             awayName={game.awayName}
             homeScore={game.homeScore}
             awayScore={game.awayScore}
+            onFinish={() => finishGame(id)}
+            onEdit={() => setEditGameId(id)}
           />
         ))
       ) : (
@@ -32,7 +42,7 @@ export const LiveGames = ({ gamesList, startGame }: Props) => {
       )}
       <Divider />
       <AddGame onAdd={startGame} />
-      <Modal isOpen={isEditModalOpen} onClose={() => setIsModalOpen(false)}>
+      <Modal isOpen={Boolean(editGameId)} onClose={() => setEditGameId("")}>
         <AddGame onAdd={startGame} />
       </Modal>
       {/* Edit + Finish */}

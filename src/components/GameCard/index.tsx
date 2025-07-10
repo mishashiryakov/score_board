@@ -2,7 +2,7 @@ import { memo } from "react";
 import { type Game } from "@/types/game";
 
 type GameCardProps = Game & {
-  onClose: () => void;
+  onFinish: () => void;
   onEdit: () => void;
 };
 
@@ -12,7 +12,7 @@ export const GameCard = memo(
     awayName,
     homeScore,
     awayScore,
-    onClose,
+    onFinish,
     onEdit,
   }: GameCardProps) => {
     return (
@@ -26,7 +26,7 @@ export const GameCard = memo(
         </div>
         <button
           className="absolute top-1 right-2 text-white cursor-pointer font-black opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-          onClick={onClose}
+          onClick={onFinish}
         >
           ✕
         </button>

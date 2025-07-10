@@ -39,7 +39,12 @@ export const ScoreBoard = () => {
       <Divider />
 
       {activeView === Views.Live && (
-        <LiveGames gamesList={liveGames} startGame={startGame} />
+        <LiveGames
+          gamesList={liveGames}
+          startGame={startGame}
+          finishGame={finishGame}
+          updateScore={updateScore}
+        />
       )}
       {activeView === Views.Summary && <GamesSummary />}
     </div>

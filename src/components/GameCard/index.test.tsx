@@ -11,7 +11,7 @@ describe("GameCard", () => {
         awayName="Team B"
         homeScore={1}
         awayScore={0}
-        onClose={() => {}}
+        onFinish={() => {}}
         onEdit={() => {}}
       />
     );
@@ -23,21 +23,21 @@ describe("GameCard", () => {
 
   it("calls onClose when ✕ button is clicked", async () => {
     const user = userEvent.setup();
-    const onClose = vi.fn();
+    const onFinish = vi.fn();
     render(
       <GameCard
         homeName="Team A"
         awayName="Team B"
         homeScore={1}
         awayScore={0}
-        onClose={onClose}
+        onFinish={onFinish}
         onEdit={() => {}}
       />
     );
 
     const closeButton = screen.getByRole("button", { name: "✕" });
     await user.click(closeButton);
-    expect(onClose).toHaveBeenCalledTimes(1);
+    expect(onFinish).toHaveBeenCalledTimes(1);
   });
 
   it("calls onEdit when Edit button is clicked", async () => {
@@ -49,7 +49,7 @@ describe("GameCard", () => {
         awayName="Team B"
         homeScore={1}
         awayScore={0}
-        onClose={() => {}}
+        onFinish={() => {}}
         onEdit={onEdit}
       />
     );
