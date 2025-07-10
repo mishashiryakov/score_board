@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
-import { describe, it, expect } from "vitest";
+import userEvent from "@testing-library/user-event";
+import { describe, it, expect, vi } from "vitest";
 import { GameCard } from "./index";
 
 describe("GameCard", () => {
@@ -10,11 +11,51 @@ describe("GameCard", () => {
         awayName="Team B"
         homeScore={1}
         awayScore={0}
+        onClose={() => {}}
+        onEdit={() => {}}
       />
     );
 
     expect(screen.getByRole("heading", { name: "Team A" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Team B" })).toBeInTheDocument();
     expect(screen.getByText("1 : 0")).toBeInTheDocument();
+  });
+
+  it("calls onClose when ✕ button is clicked", async () => {
+    const user = userEvent.setup();
+    const onClose = vi.fn();
+    render(
+      <GameCard
+        homeName="Team A"
+        awayName="Team B"
+        homeScore={1}
+        awayScore={0}
+        onClose={onClose}
+        onEdit={() => {}}
+      />
+    );
+
+    const closeButton = screen.getByRole("button", { name: "✕" });
+    await user.click(closeButton);
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it("calls onEdit when Edit button is clicked", async () => {
+    const user = userEvent.setup();
+    const onEdit = vi.fn();
+    render(
+      <GameCard
+        homeName="Team A"
+        awayName="Team B"
+        homeScore={1}
+        awayScore={0}
+        onClose={() => {}}
+        onEdit={onEdit}
+      />
+    );
+
+    const editButton = screen.getByRole("button", { name: "Edit" });
+    await user.click(editButton);
+    expect(onEdit).toHaveBeenCalledTimes(1);
   });
 });

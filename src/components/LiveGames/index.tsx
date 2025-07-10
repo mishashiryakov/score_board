@@ -1,7 +1,9 @@
 import { AddGame } from "@/components/AddGame";
 import { Divider } from "@/components/Divider";
 import { GameCard } from "@/components/GameCard";
+import { Modal } from "@/components/Modal";
 import { type GamesMap } from "@/types/game";
+import { useState } from "react";
 
 type Props = {
   gamesList: GamesMap;
@@ -9,6 +11,7 @@ type Props = {
 };
 
 export const LiveGames = ({ gamesList, startGame }: Props) => {
+  const [isEditModalOpen, setIsModalOpen] = useState<boolean>(false);
   const gamesArray = Object.entries(gamesList);
   return (
     <div className="flex flex-col gap-5">
@@ -29,6 +32,9 @@ export const LiveGames = ({ gamesList, startGame }: Props) => {
       )}
       <Divider />
       <AddGame onAdd={startGame} />
+      <Modal isOpen={isEditModalOpen} onClose={() => setIsModalOpen(false)}>
+        <AddGame onAdd={startGame} />
+      </Modal>
       {/* Edit + Finish */}
     </div>
   );
