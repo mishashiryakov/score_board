@@ -26,13 +26,13 @@ export const GameCard = memo(
         </div>
         <button
           className="absolute top-1 right-2 text-white cursor-pointer font-black opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-          onClick={() => {}}
+          onClick={onClose}
         >
           ✕
         </button>
         <button
           className="absolute bottom-1 right-2 text-white cursor-pointer font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-          onClick={() => {}}
+          onClick={onEdit}
         >
           Edit
         </button>
