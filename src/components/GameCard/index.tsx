@@ -6,6 +6,7 @@ type GameCardProps = Game & {
   onEdit: () => void;
 };
 
+// TODO add view mode
 export const GameCard = memo(
   ({
     homeName,

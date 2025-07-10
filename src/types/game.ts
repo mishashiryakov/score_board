@@ -5,4 +5,9 @@ export type Game = {
   awayScore: number;
 };
 
+export type FinishedGame = Game & {
+  id: string;
+  finishedAt: number;
+};
+
 export type GamesMap = Record<string, Game>;

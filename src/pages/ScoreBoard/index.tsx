@@ -46,7 +46,9 @@ export const ScoreBoard = () => {
           updateScore={updateScore}
         />
       )}
-      {activeView === Views.Summary && <GamesSummary />}
+      {activeView === Views.Summary && (
+        <GamesSummary finishedGames={finishedGames} />
+      )}
     </div>
   );
 };

@@ -1,12 +1,16 @@
 import { useState } from "react";
-import type { Game, GamesMap } from "@/types/game";
+import type { Game, GamesMap, FinishedGame } from "@/types/game";
+
+let nextGameId = 0;
 
 export const useGames = () => {
   const [liveGames, setLiveGames] = useState<GamesMap>({});
-  const [finishedGames, setFinishedGames] = useState<GamesMap>({});
+  const [finishedGames, setFinishedGames] = useState<FinishedGame[]>([]);
 
   const startGame = (homeName: string, awayName: string) => {
-    const id = Date.now();
+    // For simplicity
+    const id = (nextGameId++).toString();
+
     const newGame: Game = {
       homeName,
       awayName,
@@ -26,10 +30,22 @@ export const useGames = () => {
       return rest;
     });
 
-    setFinishedGames((prevFinished) => ({
-      ...prevFinished,
-      [id]: gameToMove,
-    }));
+    const finishedGame: FinishedGame = {
+      ...gameToMove,
+      id,
+      finishedAt: Date.now(),
+    };
+
+    setFinishedGames((prevFinished) => {
+      const updated = [...prevFinished, finishedGame];
+      return updated.sort((a, b) => {
+        const totalA = a.homeScore + a.awayScore;
+        const totalB = b.homeScore + b.awayScore;
+
+        if (totalB !== totalA) return totalB - totalA;
+        return b.finishedAt - a.finishedAt;
+      });
+    });
   };
 
   const updateScore = (id: string, homeScore: number, awayScore: number) => {
