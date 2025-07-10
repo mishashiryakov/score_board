@@ -15,8 +15,7 @@ export const GamesSummary = ({ finishedGames }: Props) => {
           awayName={game.awayName}
           homeScore={game.homeScore}
           awayScore={game.awayScore}
-          onFinish={() => {}}
-          onEdit={() => {}}
+          viewMode
         />
       ))}
     </div>

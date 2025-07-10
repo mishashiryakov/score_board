@@ -1,12 +1,20 @@
 import { memo } from "react";
 import { type Game } from "@/types/game";
 
-type GameCardProps = Game & {
+type BaseGameCardProps = Game & {
+  viewMode?: false;
   onFinish: () => void;
   onEdit: () => void;
 };
 
-// TODO add view mode
+type ViewOnlyGameCardProps = Game & {
+  viewMode: true;
+  onFinish?: never;
+  onEdit?: never;
+};
+
+type GameCardProps = BaseGameCardProps | ViewOnlyGameCardProps;
+
 export const GameCard = memo(
   ({
     homeName,
@@ -15,6 +23,7 @@ export const GameCard = memo(
     awayScore,
     onFinish,
     onEdit,
+    viewMode,
   }: GameCardProps) => {
     return (
       <div className="relative group">
@@ -25,18 +34,22 @@ export const GameCard = memo(
           </p>
           <h3 className="truncate pr-6">{awayName}</h3>
         </div>
-        <button
-          className="absolute top-1 right-2 text-white cursor-pointer font-black opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-          onClick={onFinish}
-        >
-          ✕
-        </button>
-        <button
-          className="absolute bottom-1 right-2 text-white cursor-pointer font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-          onClick={onEdit}
-        >
-          Edit
-        </button>
+        {!viewMode && (
+          <>
+            <button
+              className="absolute top-1 right-2 text-white cursor-pointer font-black"
+              onClick={onFinish}
+            >
+              ✕
+            </button>
+            <button
+              className="absolute bottom-1 right-2 text-white cursor-pointer font-medium"
+              onClick={onEdit}
+            >
+              Edit
+            </button>
+          </>
+        )}
       </div>
     );
   }
