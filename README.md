@@ -3,6 +3,10 @@
 A lightweight and interactive score board application built for tracking live football games and summarizing finished matches.
 
 ---
+## 🌐 Live Demo
+
+🔗 [View it live](https://mishashiryakov.github.io/score_board/)
+---
 
 ## 🚀 Getting Started
 
