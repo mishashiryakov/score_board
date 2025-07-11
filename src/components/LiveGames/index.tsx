@@ -64,7 +64,6 @@ export const LiveGames = ({
           />
         )}
       </Modal>
-      {/* Edit + Finish */}
     </div>
   );
 };
