@@ -7,7 +7,14 @@ const onAdd = vi.fn();
 
 describe("LiveGames", () => {
   it("shows placeholder when gamesList is empty", () => {
-    render(<LiveGames gamesList={{}} startGame={onAdd} />);
+    render(
+      <LiveGames
+        gamesList={{}}
+        startGame={onAdd}
+        finishGame={() => {}}
+        updateScore={() => {}}
+      />
+    );
 
     expect(
       screen.getByRole("heading", { name: /no live games at the moment/i })
@@ -30,7 +37,14 @@ describe("LiveGames", () => {
       },
     };
 
-    render(<LiveGames gamesList={mockGames} startGame={onAdd} />);
+    render(
+      <LiveGames
+        gamesList={mockGames}
+        startGame={onAdd}
+        finishGame={() => {}}
+        updateScore={() => {}}
+      />
+    );
 
     expect(screen.getByText("Spain")).toBeInTheDocument();
     expect(screen.getByText("Italy")).toBeInTheDocument();
