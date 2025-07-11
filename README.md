@@ -6,6 +6,9 @@ A lightweight and interactive score board application built for tracking live fo
 ## 🌐 Live Demo
 
 🔗 [View it live](https://mishashiryakov.github.io/score_board/)
+
+![preview-image](https://github.com/mishashiryakov/score_board/blob/16bb9c71bc0b211fa2fd57694fc73021ef155df6/preview.png)
+
 ---
 
 ## 🚀 Getting Started
