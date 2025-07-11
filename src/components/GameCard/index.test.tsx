@@ -35,7 +35,7 @@ describe("GameCard", () => {
       />
     );
 
-    const closeButton = screen.getByRole("button", { name: "✕" });
+    const closeButton = screen.getByRole("button", { name: "Finish" });
     await user.click(closeButton);
     expect(onFinish).toHaveBeenCalledTimes(1);
   });
@@ -70,7 +70,7 @@ describe("GameCard", () => {
       />
     );
 
-    expect(screen.queryByRole("button", { name: "✕" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Finish" })).not.toBeInTheDocument();
     expect(
       screen.queryByRole("button", { name: "Edit" })
     ).not.toBeInTheDocument();

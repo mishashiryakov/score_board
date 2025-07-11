@@ -37,13 +37,13 @@ export const GameCard = memo(
         {!viewMode && (
           <>
             <button
-              className="absolute top-1 right-2 text-white cursor-pointer font-black"
+              className="absolute top-1 right-2 text-white cursor-pointer font-medium hover:underline"
               onClick={onFinish}
             >
-              ✕
+              Finish
             </button>
             <button
-              className="absolute bottom-1 right-2 text-white cursor-pointer font-medium"
+              className="absolute bottom-1 right-2 text-white cursor-pointer font-medium hover:underline"
               onClick={onEdit}
             >
               Edit
