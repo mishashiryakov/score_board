@@ -77,7 +77,7 @@ npm run test
 
 ---
 
-## 📁 Project Structure (Optional)
+## 📁 Project Structure
 
 ```
 src/
