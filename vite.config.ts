@@ -5,6 +5,7 @@ import path from "path";
 import checker from "vite-plugin-checker";
 
 export default defineConfig({
+  base: '/score_board/',
   plugins: [react(), tailwindcss(), checker({ typescript: true })],
   resolve: {
     alias: {
