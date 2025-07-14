@@ -4,13 +4,18 @@ import { Divider } from "@/components/Divider";
 import { GameCard } from "@/components/GameCard";
 import { Modal } from "@/components/Modal";
 import { EditGame } from "@/components/EditGame";
-import type { GamesMap, Game } from "@/types/game";
+import type {
+  Game,
+  StartGameFn,
+  FinishGameFn,
+  UpdateGameFn,
+} from "@/types/game";
 
 type Props = {
-  gamesList: GamesMap;
-  startGame: (homeName: string, awayName: string) => void;
-  finishGame: (id: string) => void;
-  updateScore: (id: string, homeScore: number, awayScore: number) => void;
+  gamesList: Game[];
+  startGame: StartGameFn;
+  finishGame: FinishGameFn;
+  updateScore: UpdateGameFn;
 };
 
 export const LiveGames = ({
@@ -19,30 +24,30 @@ export const LiveGames = ({
   finishGame,
   updateScore,
 }: Props) => {
-  const [editGame, setEditGame] = useState<(Game & { id: string }) | null>(
+  const [editGame, setEditGame] = useState<(Game & { index: number }) | null>(
     null
   );
-  const gamesArray = Object.entries(gamesList);
 
   const onModalClose = () => setEditGame(null);
 
-  const onScoreUpdate = (id: string, homeScore: number, awayScore: number) => {
-    updateScore(id, homeScore, awayScore);
+  const onScoreUpdate: UpdateGameFn = (index, homeScore, awayScore) => {
+    updateScore(index, homeScore, awayScore);
     onModalClose();
   };
 
   return (
     <div className="flex flex-col gap-7">
-      {gamesArray.length ? (
-        gamesArray.map(([id, game]) => (
+      {gamesList.length ? (
+        gamesList.map((game, index) => (
           <GameCard
-            key={id}
+            key={game.id}
+            id={game.id}
             homeName={game.homeName}
             awayName={game.awayName}
             homeScore={game.homeScore}
             awayScore={game.awayScore}
-            onFinish={() => finishGame(id)}
-            onEdit={() => setEditGame({ ...game, id })}
+            onFinish={() => finishGame(index)}
+            onEdit={() => setEditGame({ ...game, index })}
           />
         ))
       ) : (
@@ -55,12 +60,12 @@ export const LiveGames = ({
       <Modal isOpen={Boolean(editGame)} onClose={onModalClose}>
         {editGame && (
           <EditGame
-            id={editGame.id}
             homeTeamName={editGame.homeName}
             awayTeamName={editGame.awayName}
             currentHomeScore={editGame.homeScore}
             currentAwayScore={editGame.awayScore}
             onSave={onScoreUpdate}
+            index={editGame.index}
           />
         )}
       </Modal>

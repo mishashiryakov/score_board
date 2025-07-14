@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { LiveGames } from "./index";
-import { type GamesMap } from "@/types/game";
+import { type Game } from "@/types/game";
 
 const onAdd = vi.fn();
 
@@ -9,7 +9,7 @@ describe("LiveGames", () => {
   it("shows placeholder when gamesList is empty", () => {
     render(
       <LiveGames
-        gamesList={{}}
+        gamesList={[]}
         startGame={onAdd}
         finishGame={() => {}}
         updateScore={() => {}}
@@ -22,20 +22,22 @@ describe("LiveGames", () => {
   });
 
   it("renders a list of games", () => {
-    const mockGames: GamesMap = {
-      "1": {
+    const mockGames: Game[] = [
+      {
+        id: "1",
         homeName: "Spain",
         awayName: "Italy",
         homeScore: 2,
         awayScore: 1,
       },
-      "2": {
+      {
+        id: "2",
         homeName: "Germany",
         awayName: "France",
         homeScore: 0,
         awayScore: 0,
       },
-    };
+    ];
 
     render(
       <LiveGames

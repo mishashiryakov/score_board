@@ -1,4 +1,5 @@
 export type Game = {
+  id: string;
   homeName: string;
   awayName: string;
   homeScore: number;
@@ -10,4 +11,10 @@ export type FinishedGame = Game & {
   finishedAt: number;
 };
 
-export type GamesMap = Record<string, Game>;
+export type StartGameFn = (homeName: string, awayName: string) => void;
+export type FinishGameFn = (index: number) => void;
+export type UpdateGameFn = (
+  index: number,
+  homeScore: number,
+  awayScore: number
+) => void;

@@ -1,18 +1,19 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
+import { type UpdateGameFn } from "@/types/game";
 
 type Props = {
-  id: string;
+  index: number;
   homeTeamName: string;
   awayTeamName: string;
   currentHomeScore: number;
   currentAwayScore: number;
-  onSave: (id: string, homeScore: number, awayScore: number) => void;
+  onSave: UpdateGameFn;
 };
 
 export const EditGame = ({
-  id,
+  index,
   homeTeamName,
   awayTeamName,
   currentHomeScore,
@@ -42,7 +43,7 @@ export const EditGame = ({
         />
       </div>
       <Button
-        onClick={() => onSave(id, homeScore, awayScore)}
+        onClick={() => onSave(index, homeScore, awayScore)}
         disabled={
           homeScore < 0 ||
           awayScore < 0 ||

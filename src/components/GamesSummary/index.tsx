@@ -11,6 +11,7 @@ export const GamesSummary = ({ finishedGames }: Props) => {
       {finishedGames.map((game) => (
         <GameCard
           key={game.id}
+          id={game.id}
           homeName={game.homeName}
           awayName={game.awayName}
           homeScore={game.homeScore}

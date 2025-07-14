@@ -2,6 +2,8 @@ import { renderHook, act } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import { useGames } from "./index";
 
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 describe("useGames", () => {
   it("adds a new game", () => {
     const { result } = renderHook(() => useGames());
@@ -10,7 +12,7 @@ describe("useGames", () => {
       result.current.startGame("Spain", "Italy");
     });
 
-    const liveGamesArray = Object.values(result.current.liveGames);
+    const liveGamesArray = result.current.liveGames;
 
     expect(liveGamesArray.length).toBe(1);
     expect(liveGamesArray[0]).toMatchObject({
@@ -28,14 +30,12 @@ describe("useGames", () => {
       result.current.startGame("Germany", "France");
     });
 
-    const id = Object.keys(result.current.liveGames)[0];
-
     act(() => {
-      result.current.updateScore(id, 2, 3);
+      result.current.updateScore(0, 2, 3);
     });
 
-    expect(result.current.liveGames[id].homeScore).toBe(2);
-    expect(result.current.liveGames[id].awayScore).toBe(3);
+    expect(result.current.liveGames[0].homeScore).toBe(2);
+    expect(result.current.liveGames[0].awayScore).toBe(3);
   });
 
   it("finishes a game", () => {
@@ -45,13 +45,13 @@ describe("useGames", () => {
       result.current.startGame("England", "Portugal");
     });
 
-    const id = Object.keys(result.current.liveGames)[0];
+    const id = result.current.liveGames[0].id;
 
     act(() => {
-      result.current.finishGame(id);
+      result.current.finishGame(0);
     });
 
-    expect(result.current.liveGames[id]).toBeUndefined();
+    expect(result.current.liveGames[0]).toBeUndefined();
     expect(Object.keys(result.current.liveGames)).toHaveLength(0);
 
     const finishedGame = result.current.finishedGames.find((g) => g.id === id);
@@ -68,18 +68,18 @@ describe("useGames", () => {
       result.current.startGame("Brazil", "Argentina");
     });
 
-    const initialLiveGames = { ...result.current.liveGames };
+    const initialLiveGames = [...result.current.liveGames];
     const initialFinishedGames = [...result.current.finishedGames];
 
     act(() => {
-      result.current.finishGame("non-existing-id");
+      result.current.finishGame(5);
     });
 
     expect(result.current.liveGames).toEqual(initialLiveGames);
     expect(result.current.finishedGames).toEqual(initialFinishedGames);
   });
 
-  it("sorts finished games by total score and finish time", () => {
+  it("sorts finished games by total score and finish time", async () => {
     const { result } = renderHook(() => useGames());
 
     const games = [
@@ -90,40 +90,43 @@ describe("useGames", () => {
       ["Argentina", "Australia"],
     ];
 
-    const ids: Record<string, string> = {};
     act(() => {
-      games.forEach(([home, away]) => [result.current.startGame(home, away)]);
+      games.forEach(([home, away]) => result.current.startGame(home, away));
     });
 
-    const liveGames = result.current.liveGames;
-
-    Object.entries(liveGames).forEach(([id, game]) => {
-      ids[`${game.homeName}-${game.awayName}`] = id;
-    });
-
-    act(() => {
-      result.current.updateScore(ids["Mexico-Canada"], 0, 5);
-      result.current.updateScore(ids["Spain-Brazil"], 10, 2);
-      result.current.updateScore(ids["Germany-France"], 2, 2);
-      result.current.updateScore(ids["Uruguay-Italy"], 6, 6);
-      result.current.updateScore(ids["Argentina-Australia"], 3, 1);
-    });
+    const scores = [
+      [0, 5], // Mexico - Canada
+      [10, 2], // Spain - Brazil
+      [2, 2], // Germany - France
+      [6, 6], // Uruguay - Italy
+      [3, 1], // Argentina - Australia
+    ];
 
     act(() => {
-      result.current.finishGame(ids["Uruguay-Italy"]);
+      scores.forEach(([homeScore, awayScore], i) => {
+        result.current.updateScore(i, homeScore, awayScore);
+      });
     });
-    act(() => {
-      result.current.finishGame(ids["Spain-Brazil"]);
-    });
-    act(() => {
-      result.current.finishGame(ids["Mexico-Canada"]);
-    });
-    act(() => {
-      result.current.finishGame(ids["Argentina-Australia"]);
-    });
-    act(() => {
-      result.current.finishGame(ids["Germany-France"]);
-    });
+
+    const finishByTeams = async (home: string, away: string) => {
+      const index = result.current.liveGames.findIndex(
+        (g) => g.homeName === home && g.awayName === away
+      );
+      act(() => result.current.finishGame(index));
+      await wait(10);
+    };
+
+    const finishOrder = [
+      ["Uruguay", "Italy"],
+      ["Spain", "Brazil"],
+      ["Mexico", "Canada"],
+      ["Argentina", "Australia"],
+      ["Germany", "France"],
+    ];
+
+    for (const [home, away] of finishOrder) {
+      await finishByTeams(home, away);
+    }
 
     const summary = result.current.finishedGames;
 
@@ -132,11 +135,11 @@ describe("useGames", () => {
     );
 
     expect(gameDescriptions).toEqual([
-      "Uruguay 6 - 6 Italy",
       "Spain 10 - 2 Brazil",
+      "Uruguay 6 - 6 Italy",
       "Mexico 0 - 5 Canada",
-      "Argentina 3 - 1 Australia",
       "Germany 2 - 2 France",
+      "Argentina 3 - 1 Australia",
     ]);
   });
 });

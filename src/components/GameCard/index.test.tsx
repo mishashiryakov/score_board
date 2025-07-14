@@ -7,6 +7,7 @@ describe("GameCard", () => {
   it("displays team names and score", () => {
     render(
       <GameCard
+        id="1"
         homeName="Team A"
         awayName="Team B"
         homeScore={1}
@@ -26,6 +27,7 @@ describe("GameCard", () => {
     const onFinish = vi.fn();
     render(
       <GameCard
+        id="1"
         homeName="Team A"
         awayName="Team B"
         homeScore={1}
@@ -45,6 +47,7 @@ describe("GameCard", () => {
     const onEdit = vi.fn();
     render(
       <GameCard
+        id="1"
         homeName="Team A"
         awayName="Team B"
         homeScore={1}
@@ -62,6 +65,7 @@ describe("GameCard", () => {
   it("does not render buttons when in viewMode", () => {
     render(
       <GameCard
+        id="1"
         homeName="Team A"
         awayName="Team B"
         homeScore={2}
@@ -70,7 +74,9 @@ describe("GameCard", () => {
       />
     );
 
-    expect(screen.queryByRole("button", { name: "Finish" })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Finish" })
+    ).not.toBeInTheDocument();
     expect(
       screen.queryByRole("button", { name: "Edit" })
     ).not.toBeInTheDocument();

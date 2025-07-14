@@ -4,7 +4,7 @@ import { describe, it, expect, vi } from "vitest";
 import { EditGame } from "./index";
 
 const defaultProps = {
-  id: "game-1",
+  index: 0,
   currentHomeScore: 1,
   currentAwayScore: 2,
   homeTeamName: "Team A",
@@ -36,7 +36,7 @@ describe("EditGame", () => {
 
     await user.click(button);
 
-    expect(onSave).toHaveBeenCalledWith("game-1", 5, 2);
+    expect(onSave).toHaveBeenCalledWith(0, 5, 2);
     expect(onSave).toHaveBeenCalledTimes(1);
   });
 

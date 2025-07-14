@@ -1,38 +1,41 @@
 import { useState } from "react";
-import type { Game, GamesMap, FinishedGame } from "@/types/game";
+import type {
+  Game,
+  FinishedGame,
+  StartGameFn,
+  FinishGameFn,
+  UpdateGameFn,
+} from "@/types/game";
 
 let nextGameId = 0;
 
 export const useGames = () => {
-  const [liveGames, setLiveGames] = useState<GamesMap>({});
+  const [liveGames, setLiveGames] = useState<Game[]>([]);
   const [finishedGames, setFinishedGames] = useState<FinishedGame[]>([]);
 
-  const startGame = (homeName: string, awayName: string) => {
+  const startGame: StartGameFn = (homeName, awayName) => {
     // For simplicity
     const id = (nextGameId++).toString();
 
     const newGame: Game = {
+      id,
       homeName,
       awayName,
       homeScore: 0,
       awayScore: 0,
     };
 
-    setLiveGames((prev) => ({ ...prev, [id]: newGame }));
+    setLiveGames((prev) => [...prev, newGame]);
   };
 
-  const finishGame = (id: string) => {
-    const gameToMove = liveGames[id];
+  const finishGame: FinishGameFn = (index) => {
+    const gameToMove = liveGames[index];
     if (!gameToMove) return;
 
-    setLiveGames((prevLive) => {
-      const { [id]: _, ...rest } = prevLive;
-      return rest;
-    });
+    setLiveGames((prev) => [...prev.slice(0, index), ...prev.slice(index + 1)]);
 
     const finishedGame: FinishedGame = {
       ...gameToMove,
-      id,
       finishedAt: Date.now(),
     };
 
@@ -48,15 +51,12 @@ export const useGames = () => {
     });
   };
 
-  const updateScore = (id: string, homeScore: number, awayScore: number) => {
-    setLiveGames((prev) => ({
-      ...prev,
-      [id]: {
-        ...prev[id],
-        homeScore,
-        awayScore,
-      },
-    }));
+  const updateScore: UpdateGameFn = (index, homeScore, awayScore) => {
+    setLiveGames((prev) => {
+      const copy = [...prev];
+      copy[index] = { ...copy[index], homeScore, awayScore };
+      return copy;
+    });
   };
 
   return { liveGames, finishedGames, startGame, finishGame, updateScore };
