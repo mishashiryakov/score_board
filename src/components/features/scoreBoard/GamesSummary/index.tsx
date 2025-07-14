@@ -1,5 +1,5 @@
 import { type FinishedGame } from "@/types/game";
-import { GameCard } from "@/components/GameCard";
+import { GameCard } from "@/components/features/scoreBoard/GameCard";
 
 type Props = {
   finishedGames: FinishedGame[];

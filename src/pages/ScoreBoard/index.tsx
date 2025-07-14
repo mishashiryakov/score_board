@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Tab } from "@/components/Tab";
-import { TabList } from "@/components/TabList";
-import { LiveGames } from "@/components/LiveGames";
-import { GamesSummary } from "@/components/GamesSummary";
-import { Divider } from "@/components/Divider";
+import { Tab } from "@/components/ui/Tab";
+import { TabList } from "@/components/ui/TabList";
+import { LiveGames } from "@/components/features/scoreBoard/LiveGames";
+import { GamesSummary } from "@/components/features/scoreBoard/GamesSummary";
+import { Divider } from "@/components/ui/Divider";
 import { useGames } from "@/hooks/useGames";
 
 enum Views {

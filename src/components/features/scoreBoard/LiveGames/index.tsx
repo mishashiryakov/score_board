@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { AddGame } from "@/components/AddGame";
-import { Divider } from "@/components/Divider";
-import { GameCard } from "@/components/GameCard";
-import { Modal } from "@/components/Modal";
-import { EditGame } from "@/components/EditGame";
+import { AddGame } from "@/components/features/scoreBoard/AddGame";
+import { Divider } from "@/components/ui/Divider";
+import { GameCard } from "@/components/features/scoreBoard/GameCard";
+import { Modal } from "@/components/ui/Modal";
+import { EditGame } from "@/components/features/scoreBoard/EditGame";
 import type {
   Game,
   StartGameFn,
